@@ -33,6 +33,11 @@ class Editor extends React.Component {
             <Tab label={v.view.name} />
           ))}
         </Tabs>
+        {views.map((v, index) => (
+          <div className="view">
+            {v.view.name}{index}
+          </div>
+        ))}
       </div>
     )
   }
