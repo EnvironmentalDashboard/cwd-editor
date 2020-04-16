@@ -12,6 +12,14 @@ const fetch = (url, params) => {
   .then(res => res.json());
 };
 
+const post = (url, params) => {
+  return window.fetch(`http://${API_URL}/${url}`, {
+    method: 'post',
+    body: JSON.stringify(params)
+  })
+  .then(res => res.json());
+}
+
 module.exports = {
   fetch
 };
