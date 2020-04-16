@@ -1,5 +1,6 @@
 import React from 'react';
 
+import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
@@ -26,13 +27,15 @@ class Editor extends React.Component {
 
     return (
       <div className="Editor">
-        <Tabs
-          onChange={e => this.setState({ views: [...this.state.views, this.state.views[0]] })}
-        >
-          {views.map(v => (
-            <Tab label={v.view.name} />
-          ))}
-        </Tabs>
+        <AppBar position="static">
+          <Tabs
+            onChange={e => this.setState({ views: [...this.state.views, this.state.views[0]] })}
+          >
+            {views.map(v => (
+              <Tab label={v.view.name} />
+            ))}
+          </Tabs>
+        </AppBar>
         {views.map((v, index) => (
           <div className="view">
             {v.view.name}{index}
