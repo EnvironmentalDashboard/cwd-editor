@@ -27,6 +27,7 @@ class Editor extends React.Component {
     return (
       <div className="Editor">
         <Tabs
+          onChange={e => this.setState({ views: [...this.state.views, this.state.views[0]] })}
         >
           {views.map(v => (
             <Tab label={v.view.name} />
