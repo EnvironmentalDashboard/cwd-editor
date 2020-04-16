@@ -1,3 +1,5 @@
+The guide used to Dockerize this is [here](https://mherman.org/blog/dockerizing-a-react-app/).
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
