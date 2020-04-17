@@ -7,23 +7,30 @@ class MessageEditor extends React.Component {
     super(props);
 
     this.state = {
-      messages: []
+      messages: [],
+      gauges: []
     }
   }
 
   componentDidUpdate(prevProps) {
     if (this.props.id !== prevProps.id && this.props.id) {
       api.fetch(`glyphs/${this.props.id}/messages`)
-      .then(messages => this.setState({ messages: messages }))
+      .then(messages => this.setState({ messages: messages }));
+
+      api.fetch(`glyphs/${this.props.id}/gauges`)
+      .then(gauges => this.setState({ gauges: gauges }));
     }
   }
 
   render() {
-    const { messages } = this.state;
+    const { messages, gauges } = this.state;
 
     return (
       <div className="MessageEditor">
         {messages.map(m => m.text)}
+
+        {/* Maybe make a GaugeDisplay comment or something... */}
+        {gauges.map(g => g.url)}
       </div>
     )
   }
