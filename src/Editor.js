@@ -4,6 +4,8 @@ import AppBar from '@material-ui/core/AppBar';
 import Tab from '@material-ui/core/Tab';
 import Tabs from '@material-ui/core/Tabs';
 
+import MessageEditor from './MessageEditor.js';
+
 const api = require('./api.js');
 
 class Editor extends React.Component {
@@ -11,36 +13,36 @@ class Editor extends React.Component {
     super(props);
 
     this.state = {
-      views: []
+      views: [],
+      currentView: 0
     }
   }
 
   componentDidMount() {
     api.fetch('views')
     .then(
-      result => this.setState({ views: result })
+      result => this.setState({ views: result, currentView: 0 })
     );
   }
 
   render() {
-    const { views } = this.state;
+    const { views, currentView } = this.state;
 
     return (
       <div className="Editor">
         <AppBar position="static">
           <Tabs
-            onChange={e => this.setState({ views: [...this.state.views, this.state.views[0]] })}
+            onChange={(e, value) => this.setState({ currentView: value })}
+            value={currentView}
           >
             {views.map(v => (
               <Tab label={v.view.name} />
             ))}
           </Tabs>
         </AppBar>
-        {views.map((v, index) => (
-          <div className="view">
-            {v.view.name}{index}
-          </div>
-        ))}
+        <MessageEditor
+          id={views.length > 0 && views[currentView]._id}
+        />
       </div>
     )
   }
