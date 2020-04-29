@@ -1,4 +1,5 @@
 import React from 'react';
+import TextField from '@material-ui/core/TextField';
 
 const api = require('./api.js');
 
@@ -19,6 +20,7 @@ class MessageEditor extends React.Component {
 
       api.fetch(`glyphs/${this.props.id}/gauges`)
       .then(gauges => this.setState({ gauges: gauges }));
+
     }
   }
 
@@ -27,7 +29,36 @@ class MessageEditor extends React.Component {
 
     return (
       <div className="MessageEditor">
-        {messages.map(m => m.text)}
+        <form>
+          <TextField
+            id="outlined-password-input"
+            label="Password"
+            type="password"
+            size="small"
+            margin="normal"
+            variant="outlined"
+          />
+        </form>
+        {messages.map((m, index) =>
+          <form> <TextField
+                    id="outlined-basic"
+                    label={`Message ${index + 1}`}
+                    variant="outlined"
+                    size="small"
+                    margin="normal"
+                    defaultValue={m.text}
+                  />
+                  <TextField
+                    type="number"
+                    style={{width: 75}}
+                    id="outlined-basic"
+                    label={`Prob ${index + 1}`}
+                    variant="outlined"
+                    size="small"
+                    margin="normal"
+                    defaultValue={m.probability}
+                  />
+          </form>)}
 
         {/* Maybe make a GaugeDisplay comment or something... */}
         {gauges.map(g => g.url)}
