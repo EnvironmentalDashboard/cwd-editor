@@ -15,6 +15,10 @@ class MessageEditor extends React.Component {
 
   componentDidUpdate(prevProps) {
     if (this.props.id !== prevProps.id && this.props.id) {
+      this.setState({
+        messages: [],
+        gauges: []
+      });
       api.fetch(`glyphs/${this.props.id}/messages`)
       .then(messages => this.setState({ messages: messages }));
 
