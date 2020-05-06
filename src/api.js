@@ -21,6 +21,6 @@ const post = (url, params) => {
 }
 
 module.exports = {
-  fetch
+  fetch,
   post
 };
