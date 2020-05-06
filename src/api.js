@@ -22,4 +22,5 @@ const post = (url, params) => {
 
 module.exports = {
   fetch
+  post
 };
