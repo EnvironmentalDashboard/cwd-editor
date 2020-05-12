@@ -15,6 +15,7 @@ const fetch = (url, params) => {
 const post = (url, params) => {
   return window.fetch(`http://${API_URL}/${url}`, {
     method: 'post',
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(params)
   })
   .then(res => res.json());
