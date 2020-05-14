@@ -13,7 +13,8 @@ const styles = theme => ({
     flexWrap: 'wrap'
   },
   textField: {
-    width: '75%'
+    width: '30%',
+    marginRight: 15
   }
 });
 
@@ -30,10 +31,6 @@ class MessageInput extends React.Component {
       error: false,
       warning: false
     }
-  }
-
-  componentDidUpdate () {
-    //this.setState({pass: this.props.pass})
   }
 
   handleOnChange = event => {
@@ -102,6 +99,7 @@ class MessageInput extends React.Component {
             size="small"
             onChange={this.updateText}
             onBlur={this.updateMessage}
+            multiline
           />
           <TextField
             type="number"
