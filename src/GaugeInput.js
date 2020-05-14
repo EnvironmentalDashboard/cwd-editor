@@ -77,13 +77,21 @@ class GaugeInput extends React.Component {
   render() {
     const { classes } = this.props;
     let { gauge, prob } = this.state;
+    let text = []
 
     if (gauge.messages) {
-      gauge.messages.map((m => prob.push(m.probability)))
+      gauge.messages.map((m => {
+        prob.push(m.probability)
+        text.push(m.text)
+      }))
     }
 
     const updateProb = event => {
       prob[event.target.id][event.target.getAttribute('bin')] = event.target.value
+    }
+
+    const updateText = event => {
+      text[event.target.id] = event.target.value
     }
 
     const addMessage = () => {
@@ -99,8 +107,9 @@ class GaugeInput extends React.Component {
     }
 
     const updateMessage = event => {
+      const index = event.target.id
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${event.target.id + 1}`,
-        {"pass" : this.props.pass, "text" : event.target.value, "probability" : prob[event.target.id]}
+        {"pass" : this.props.pass, "text" : text[index], "probability" : prob[index]}
       ).then(result => {this.open(result)})
     }
 
@@ -127,6 +136,7 @@ class GaugeInput extends React.Component {
                     variant="outlined"
                     size="small"
                     multiline
+                    onChange={updateText}
                     onBlur={updateMessage}
                   />
                   {m.probability.map((prob, num) =>
