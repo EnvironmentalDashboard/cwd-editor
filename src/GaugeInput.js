@@ -83,7 +83,7 @@ class GaugeInput extends React.Component {
     }
 
     const updateProb = event => {
-      prob[event.target.id] = gauge.messages[event.target.id].probability
+      prob[event.target.id][event.target.getAttribute('bin')] = event.target.value
     }
 
     const addMessage = () => {
@@ -134,6 +134,7 @@ class GaugeInput extends React.Component {
                       type="number"
                       style={{width: 65}}
                       id={index}
+                      inputProps={{'bin': num}}
                       label={`Bin ${num + 1}`}
                       variant="outlined"
                       size="small"
