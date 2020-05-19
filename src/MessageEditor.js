@@ -30,7 +30,6 @@ class MessageEditor extends React.Component {
 
       api.fetch(`glyphs/${this.props.id}/gauges`)
       .then(gauges => this.setState({ gauges: gauges }));
-
     }
   }
 
@@ -38,9 +37,12 @@ class MessageEditor extends React.Component {
     let { messages, gauges } = this.state;
 
     const addVMessage = () => {
-      api.post(`glyphs/${this.props.id}/messages/`, {"pass" : this.inputRef.value, "text" : 'Default message', "probability" : 0}).then(result => {console.log(result)})
-      messages.push({"text" : 'Default message', "probability" : 0})
-      this.forceUpdate();
+      api.post(`glyphs/${this.props.id}/messages/`, {"pass" : this.inputRef.value, "text" : 'Default message', "probability" : 0}).then(result => {
+        if (!result.errors) {
+          this.setState({ messages: [...messages, {"text" : 'Default message', "probability" : 0}]})
+        }
+      })
+
     }
 
     const password = () => {
@@ -49,7 +51,6 @@ class MessageEditor extends React.Component {
 
     return (
       <div className="MessageEditor">
-        <form>
           <TextField
             id="outlined-password-input"
             label="Enter Password to Update Messages"
@@ -61,7 +62,6 @@ class MessageEditor extends React.Component {
             inputRef={ref => { this.inputRef = ref; }}
             onBlur={password}
           />
-        </form>
         <div>
         {messages.map((m, index) =>
           <MessageInput
@@ -73,16 +73,13 @@ class MessageEditor extends React.Component {
         )}
           <Button variant="contained" onClick={addVMessage}>Add Message To View</Button>
         </div>
-        {/* Maybe make a GaugeDisplay comment or something... */}
         {gauges.map((g, index) =>
-          <div>
             <GaugeInput
               index={index + 1}
               id={this.props.id}
               gauge={g}
               pass={this.inputRef.value}
             />
-          </div>
         )}
       </div>
     )
