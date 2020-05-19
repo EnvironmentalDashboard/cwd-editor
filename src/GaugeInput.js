@@ -92,13 +92,23 @@ class GaugeInput extends React.Component {
     const addMessage = () => {
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages`,
         {"pass" : this.props.pass, "text" : "Default gauge message", "probability" : [0,0,0,0,0]}
-      ).then(result => {console.log(result)})
-
-      if (!gauge.messages) {
-        gauge[ "messages" ] = [];
-      }
-      gauge.messages.push({"text" : "Default gauge message", "probability" : [0,0,0,0,0]})
-      this.forceUpdate();
+      ).then(result => {
+        if (!result.errors) {
+          if (!this.state.gauge.messages) {
+            this.setState(prevState => ({
+              gauge: {
+                ...prevState.gauge, messages: []
+              }
+            }))
+          }
+          this.setState(prevState => ({
+            gauge: {
+              ...prevState.gauge, messages:
+                [...prevState.gauge.messages, {"text" : "Default gauge message", "probability" : [0,0,0,0,0]}]
+            }
+          }))
+        }
+      })
     }
 
     const updateMessage = event => {
@@ -122,7 +132,7 @@ class GaugeInput extends React.Component {
                 <form className={classes.container} noValidate autoComplete="off">
                   <TextField
                     id={index}
-                    label={`Message ${this.props.index}`}
+                    label={`Message ${index + 1}`}
                     defaultValue={m.text}
                     className={classes.textField}
                     margin="normal"
