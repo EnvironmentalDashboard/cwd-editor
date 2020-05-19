@@ -15,7 +15,8 @@ class MessageEditor extends React.Component {
 
     this.state = {
       messages: [],
-      gauges: []
+      gauges: [],
+      pass: ""
     }
   }
 
@@ -37,16 +38,15 @@ class MessageEditor extends React.Component {
     let { messages, gauges } = this.state;
 
     const addVMessage = () => {
-      api.post(`glyphs/${this.props.id}/messages/`, {"pass" : this.inputRef.value, "text" : 'Default message', "probability" : 0}).then(result => {
+      api.post(`glyphs/${this.props.id}/messages/`, {"pass" : this.state.pass, "text" : "Default message", "probability" : 0}).then(result => {
         if (!result.errors) {
-          this.setState({ messages: [...messages, {"text" : 'Default message', "probability" : 0}]})
+          this.setState({ messages: [...messages, {"text" : "Default message", "probability" : 0}]})
         }
       })
-
     }
 
-    const password = () => {
-      this.forceUpdate();
+    const passChange = (event) => {
+      this.setState({ pass: event.target.value })
     }
 
     return (
@@ -59,8 +59,7 @@ class MessageEditor extends React.Component {
             margin="normal"
             variant="outlined"
             style={{width: '16%'}}
-            inputRef={ref => { this.inputRef = ref; }}
-            onBlur={password}
+            onChange={passChange}
           />
         <div>
         {messages.map((m, index) =>
@@ -69,7 +68,7 @@ class MessageEditor extends React.Component {
             id={this.props.id}
             text={m.text}
             prob={m.probability}
-            pass={this.inputRef.value}/>
+            pass={this.state.pass}/>
         )}
           <Button variant="contained" onClick={addVMessage}>Add Message To View</Button>
         </div>
@@ -78,7 +77,7 @@ class MessageEditor extends React.Component {
               index={index + 1}
               id={this.props.id}
               gauge={g}
-              pass={this.inputRef.value}
+              pass={this.state.pass}
             />
         )}
       </div>
