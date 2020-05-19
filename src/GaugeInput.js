@@ -8,7 +8,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
 
 const api = require('./api.js');
 
@@ -33,8 +33,8 @@ class GaugeInput extends React.Component {
     super(props);
 
     this.state = {
-      id: `${this.props.id}`,
-      index: `${this.props.index}`,
+      id: this.props.id,
+      index: this.props.index,
       prob: [],
       success: false,
       error: false,
@@ -42,11 +42,6 @@ class GaugeInput extends React.Component {
       gauge: this.props.gauge
     }
   }
-
-  handleOnChange = event => {
-    console.log('Click');
-    console.log(event.target.value);
-  };
 
   open = (result) => {
     console.log(result)
@@ -75,8 +70,8 @@ class GaugeInput extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-    let { gauge, prob } = this.state;
+    const { classes } = this.props
+    let { gauge, prob } = this.state
     let text = []
 
     if (gauge.messages) {
@@ -96,13 +91,13 @@ class GaugeInput extends React.Component {
 
     const addMessage = () => {
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages`,
-        {"pass" : this.props.pass, "text" : 'Default message', "probability" : [0,0,0,0,0]}
+        {"pass" : this.props.pass, "text" : "Default gauge message", "probability" : [0,0,0,0,0]}
       ).then(result => {console.log(result)})
 
       if (!gauge.messages) {
         gauge[ "messages" ] = [];
       }
-      gauge.messages.push({"text" : 'Default gauge message', "probability" : [0,0,0,0,0]})
+      gauge.messages.push({"text" : "Default gauge message", "probability" : [0,0,0,0,0]})
       this.forceUpdate();
     }
 
@@ -113,8 +108,6 @@ class GaugeInput extends React.Component {
       ).then(result => {this.open(result)})
     }
 
-    if (gauge.messages) {
-      console.log('Messages attached')
       return (
         <div>
           <ExpansionPanel style={{width: '50%', border: '1px solid rgba(0, 0, 0, .125)', marginTop: 10}}>
@@ -125,7 +118,7 @@ class GaugeInput extends React.Component {
               Gauge {this.state.index}
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
-              {gauge.messages.map((m, index) =>
+              {gauge.messages && gauge.messages.map((m, index) =>
                 <form className={classes.container} noValidate autoComplete="off">
                   <TextField
                     id={index}
@@ -176,39 +169,7 @@ class GaugeInput extends React.Component {
           </Snackbar>
         </div>
       );
-    } else {
-      console.log('No messages yet')
-      return (
-        <div>
-          <ExpansionPanel style={{width: '50%', border: '1px solid rgba(0, 0, 0, .125)', marginTop: 10}}>
-            <ExpansionPanelSummary
-              expandIcon={<ExpandMoreIcon />}
-              aria-controls="panel1a-content"
-              id="panel1a-header">
-              Gauge {this.state.index}
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails>
-              <Button variant="contained" onClick={addMessage} style={{width: '25%'}}>Add Message</Button>
-            </ExpansionPanelDetails>
-          </ExpansionPanel>
-          <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.close}>
-            <Alert variant="filled" severity="success" onClose={this.close}>
-              Database updated!
-            </Alert>
-          </Snackbar>
-          <Snackbar open={this.state.warning} autoHideDuration={3000} onClose={this.close}>
-            <Alert variant="filled" severity="warning" onClose={this.close}>
-              Please enter a password.
-            </Alert>
-          </Snackbar>
-          <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.close}>
-            <Alert variant="filled" severity="error" onClose={this.close}>
-              Database could not be updated!
-            </Alert>
-          </Snackbar>
-        </div>
-      );
-    }
+
 
   }
 }

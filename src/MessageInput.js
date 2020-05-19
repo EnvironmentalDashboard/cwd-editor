@@ -23,20 +23,15 @@ class MessageInput extends React.Component {
     super(props);
 
     this.state = {
-      id: `${this.props.id}`,
-      index: `${this.props.index}`,
-      prob: `${this.props.prob}`,
-      text: `${this.props.text}`,
+      id: this.props.id,
+      index: this.props.index,
+      prob: this.props.prob,
+      text: this.props.text,
       success: false,
       error: false,
       warning: false
     }
   }
-
-  handleOnChange = event => {
-    console.log('Click');
-    console.log(event.target.value);
-  };
 
   updateText = event => {
     this.setState({
@@ -84,7 +79,6 @@ class MessageInput extends React.Component {
 
   render() {
     const { classes } = this.props;
-
 
     return (
       <div>
