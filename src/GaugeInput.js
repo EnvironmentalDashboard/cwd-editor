@@ -35,11 +35,11 @@ class GaugeInput extends React.Component {
     this.state = {
       id: this.props.id,
       index: this.props.index,
-      prob: [],
       success: false,
       error: false,
       warning: false,
-      gauge: this.props.gauge
+      gauge: this.props.gauge,
+      messages: this.props.gauge.messages
     }
   }
 
@@ -71,22 +71,32 @@ class GaugeInput extends React.Component {
 
   render() {
     const { classes } = this.props
-    let { gauge, prob } = this.state
-    let text = []
+    let { gauge, messages } = this.state
 
-    if (gauge.messages) {
-      gauge.messages.map((m => {
-        prob.push(m.probability)
-        text.push(m.text)
+    const updateProb = event => {
+      const id = event.target.id
+      const val = event.target.value
+      let p = this.state.messages[id].probability;
+      p[event.target.getAttribute('bin')] = parseInt(val);
+
+      this.setState(prevState => ({
+        messages: {
+          ...prevState.messages, [id]:
+            {"text": prevState.messages[id].text, "probability": p}
+        }
       }))
     }
 
-    const updateProb = event => {
-      prob[event.target.id][event.target.getAttribute('bin')] = event.target.value
-    }
-
     const updateText = event => {
-      text[event.target.id] = event.target.value
+      const id = event.target.id
+      const val = event.target.value
+
+      this.setState(prevState => ({
+        messages: {
+          ...prevState.messages, [id]:
+            {"text": val, "probability": prevState.messages[id].probability}
+        }
+      }))
     }
 
     const addMessage = () => {
@@ -113,8 +123,9 @@ class GaugeInput extends React.Component {
 
     const updateMessage = event => {
       const index = event.target.id
+
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${event.target.id + 1}`,
-        {"pass" : this.props.pass, "text" : text[index], "probability" : prob[index]}
+        {"pass" : this.props.pass, "text" : messages[index].text, "probability" : messages[index].probability}
       ).then(result => {this.open(result)})
     }
 
