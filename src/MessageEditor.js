@@ -45,10 +45,6 @@ class MessageEditor extends React.Component {
       })
     }
 
-    const passChange = (event) => {
-      this.setState({ pass: event.target.value })
-    }
-
     return (
       <div className="MessageEditor">
           <TextField
@@ -59,7 +55,7 @@ class MessageEditor extends React.Component {
             margin="normal"
             variant="outlined"
             style={{width: '16%'}}
-            onChange={passChange}
+            onBlur={(event) => {this.setState({ pass: event.target.value })}}
           />
         <div>
         {messages.map((m, index) =>
