@@ -103,11 +103,11 @@ class GaugeInput extends React.Component {
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages`,
         {"pass" : this.props.pass, "text" : "Default gauge message", "probability" : [0,0,0,0,0]}
       ).then(result => {
-        const message = (prevState.gauge.messages || []).concat({"text" : "Default gauge message", "probability" : [0,0,0,0,0]})
+        const messages = (prevState.gauge.messages || []).concat({"text" : "Default gauge message", "probability" : [0,0,0,0,0]})
         if (!result.errors) {
           this.setState(prevState => ({
             gauge: {
-              ...prevState.gauge, messages: message
+              ...prevState.gauge, messages: messages
             }
           }))
         }
