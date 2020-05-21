@@ -1,11 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TextField from '@material-ui/core/TextField';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@material-ui/lab/Alert';
+import React from 'react'
+import PropTypes from 'prop-types'
+import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
+import Snackbar from '@material-ui/core/Snackbar'
+import Alert from '@material-ui/lab/Alert'
 
-const api = require('./api.js');
+const api = require('./api.js')
 
 const styles = theme => ({
   container: {
@@ -16,11 +16,11 @@ const styles = theme => ({
     width: '30%',
     marginRight: 15
   }
-});
+})
 
 class MessageInput extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
       id: this.props.id,
@@ -60,7 +60,7 @@ class MessageInput extends React.Component {
 
   close = (event, reason) => {
     if (reason === 'clickaway') {
-      return;
+      return
     }
     if (this.state.error) {
       this.setState({error: false})
@@ -78,7 +78,7 @@ class MessageInput extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes } = this.props
 
     return (
       <div>
@@ -124,12 +124,12 @@ class MessageInput extends React.Component {
           </Alert>
         </Snackbar>
       </div>
-    );
+    )
   }
 }
 
 MessageInput.propTypes = {
   classes: PropTypes.object.isRequired
-};
+}
 
-export default withStyles(styles)(MessageInput);
+export default withStyles(styles)(MessageInput)

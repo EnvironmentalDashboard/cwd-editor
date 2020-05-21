@@ -1,13 +1,13 @@
-import React from 'react';
-import TextField from '@material-ui/core/TextField';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import React from 'react'
+import TextField from '@material-ui/core/TextField'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Button from '@material-ui/core/Button'
 
 import MessageInput from './MessageInput.js'
 import GaugeInput from './GaugeInput.js'
 
 
-const api = require('./api.js');
+const api = require('./api.js')
 
 class MessageEditor extends React.Component {
   constructor(props) {
@@ -25,17 +25,17 @@ class MessageEditor extends React.Component {
       this.setState({
         messages: [],
         gauges: []
-      });
+      })
       api.fetch(`glyphs/${this.props.id}/messages`)
-      .then(messages => this.setState({ messages: messages }));
+      .then(messages => this.setState({ messages: messages }))
 
       api.fetch(`glyphs/${this.props.id}/gauges`)
-      .then(gauges => this.setState({ gauges: gauges }));
+      .then(gauges => this.setState({ gauges: gauges }))
     }
   }
 
   render() {
-    let { messages, gauges } = this.state;
+    let { messages, gauges } = this.state
 
     const addVMessage = () => {
       api.post(`glyphs/${this.props.id}/messages/`, {"pass" : this.state.pass, "text" : "Default message", "probability" : 0}).then(result => {
@@ -81,4 +81,4 @@ class MessageEditor extends React.Component {
   }
 }
 
-export default MessageEditor;
+export default MessageEditor
