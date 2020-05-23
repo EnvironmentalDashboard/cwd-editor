@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import Snackbar from '@material-ui/core/Snackbar'
-import Alert from '@material-ui/lab/Alert'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
@@ -35,37 +33,8 @@ class GaugeInput extends React.Component {
     this.state = {
       id: this.props.id,
       index: this.props.index,
-      success: false,
-      error: false,
-      warning: false,
       gauge: this.props.gauge,
       messages: this.props.gauge.messages
-    }
-  }
-
-  open = (result) => {
-    console.log(result)
-    if (result.errors) {
-      if (this.props.pass === "") {
-        this.setState({warning: true})
-      } else {
-        this.setState({error: true})
-      }
-    } else {
-      this.setState({success: true})
-    }
-  }
-
-  close = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    if (this.state.error) {
-      this.setState({error: false})
-    } else if (this.state.warning){
-      this.setState({warning: false})
-    } else {
-      this.setState({success: false})
     }
   }
 
@@ -110,10 +79,11 @@ class GaugeInput extends React.Component {
           this.setState(prevState => ({
             gauge: {
               ...prevState.gauge, messages: messages
-            },
-            messages: messages
+            }
           }))
+          this.setState({messages: this.state.gauge.messages})
         }
+        this.props.funct(result)
       })
     }
 
@@ -122,7 +92,7 @@ class GaugeInput extends React.Component {
 
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${event.target.id + 1}`,
         {"pass" : this.props.pass, "text" : messages[index].text, "probability" : messages[index].probability}
-      ).then(result => {this.open(result)})
+      ).then(result => {this.props.funct(result)})
     }
 
       return (
@@ -169,21 +139,6 @@ class GaugeInput extends React.Component {
               <Button variant="contained" onClick={addMessage} style={{width: '25%'}}>Add Message</Button>
             </ExpansionPanelDetails>
           </ExpansionPanel>
-          <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.close}>
-            <Alert variant="filled" severity="success" onClose={this.close}>
-              Database updated!
-            </Alert>
-          </Snackbar>
-          <Snackbar open={this.state.warning} autoHideDuration={3000} onClose={this.close}>
-            <Alert variant="filled" severity="warning" onClose={this.close}>
-              Please enter a password.
-            </Alert>
-          </Snackbar>
-          <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.close}>
-            <Alert variant="filled" severity="error" onClose={this.close}>
-              Database could not be updated!
-            </Alert>
-          </Snackbar>
         </div>
       );
 

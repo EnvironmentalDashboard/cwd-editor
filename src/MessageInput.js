@@ -2,8 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import TextField from '@material-ui/core/TextField'
-import Snackbar from '@material-ui/core/Snackbar'
-import Alert from '@material-ui/lab/Alert'
 
 const api = require('./api.js')
 
@@ -26,10 +24,7 @@ class MessageInput extends React.Component {
       id: this.props.id,
       index: this.props.index,
       prob: this.props.prob,
-      text: this.props.text,
-      success: false,
-      error: false,
-      warning: false
+      text: this.props.text
     }
   }
 
@@ -45,36 +40,10 @@ class MessageInput extends React.Component {
     })
   }
 
-  open = (result) => {
-    console.log(result)
-    if (result.errors) {
-      if (this.props.pass === "") {
-        this.setState({warning: true})
-      } else {
-        this.setState({error: true})
-      }
-    } else {
-      this.setState({success: true})
-    }
-  }
-
-  close = (event, reason) => {
-    if (reason === 'clickaway') {
-      return
-    }
-    if (this.state.error) {
-      this.setState({error: false})
-    } else if (this.state.warning){
-      this.setState({warning: false})
-    } else {
-      this.setState({success: false})
-    }
-  }
-
   updateMessage = event => {
     api.post(`glyphs/${this.state.id}/messages/${this.state.index}`,
       {"pass" : this.props.pass, "text" : this.state.text, "probability" : this.state.prob}
-    ).then(result => {this.open(result)})
+    ).then(result => {this.props.funct(result)})
   }
 
   render() {
@@ -108,21 +77,6 @@ class MessageInput extends React.Component {
             onBlur={this.updateMessage}
           />
         </form>
-        <Snackbar open={this.state.success} autoHideDuration={3000} onClose={this.close}>
-          <Alert variant="filled" severity="success" onClose={this.close}>
-            Database updated!
-          </Alert>
-        </Snackbar>
-        <Snackbar open={this.state.warning} autoHideDuration={3000} onClose={this.close}>
-          <Alert variant="filled" severity="warning" onClose={this.close}>
-            Please enter a password.
-          </Alert>
-        </Snackbar>
-        <Snackbar open={this.state.error} autoHideDuration={3000} onClose={this.close}>
-          <Alert variant="filled" severity="error" onClose={this.close}>
-            Database could not be updated!
-          </Alert>
-        </Snackbar>
       </div>
     )
   }
