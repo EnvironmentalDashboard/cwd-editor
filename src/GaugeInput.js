@@ -88,9 +88,9 @@ class GaugeInput extends React.Component {
     }
 
     const updateMessage = event => {
-      const index = event.target.id
+      const index = Number(event.target.id)
 
-      api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${event.target.id + 1}`,
+      api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${index + 1}`,
         {"pass" : this.props.pass, "text" : messages[index].text, "probability" : messages[index].probability}
       ).then(result => {this.props.funct(result)})
     }
