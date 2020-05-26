@@ -79,9 +79,9 @@ class GaugeInput extends React.Component {
           this.setState(prevState => ({
             gauge: {
               ...prevState.gauge, messages: messages
-            }
+            },
+            messages: messages
           }))
-          this.setState({messages: this.state.gauge.messages})
         }
         this.props.funct(result)
       })
