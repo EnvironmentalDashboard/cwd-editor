@@ -7,6 +7,7 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Button from '@material-ui/core/Button'
+import Typography from '@material-ui/core/Typography'
 
 const api = require('./api.js');
 
@@ -102,7 +103,9 @@ class GaugeInput extends React.Component {
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
               id="panel1a-header">
-              Gauge {this.state.index}
+              <Typography>
+                Gauge {this.state.index}
+              </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
               {gauge.messages && gauge.messages.map((m, index) =>
