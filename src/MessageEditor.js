@@ -82,7 +82,7 @@ class MessageEditor extends React.Component {
             text={m.text}
             prob={m.probability}
             pass={this.state.pass}
-            funct={this.showAlert}
+            addToSnackbar={this.showAlert}
             />
         )}
           <Button variant="contained" onClick={addVMessage}>Add Message To View</Button>
@@ -93,7 +93,7 @@ class MessageEditor extends React.Component {
               id={this.props.id}
               gauge={g}
               pass={this.state.pass}
-              funct={this.showAlert}
+              addToSnackbar={this.showAlert}
             />
         )}
       </div>

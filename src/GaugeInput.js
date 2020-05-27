@@ -84,7 +84,7 @@ class GaugeInput extends React.Component {
             messages: messages
           }))
         }
-        this.props.funct(result)
+        this.props.addToSnackbar(result)
       })
     }
 
@@ -93,7 +93,7 @@ class GaugeInput extends React.Component {
 
       api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${index + 1}`,
         {"pass" : this.props.pass, "text" : messages[index].text, "probability" : messages[index].probability}
-      ).then(result => {this.props.funct(result)})
+      ).then(result => {this.props.addToSnackbar(result)})
     }
 
       return (

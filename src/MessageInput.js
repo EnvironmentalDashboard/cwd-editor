@@ -43,7 +43,7 @@ class MessageInput extends React.Component {
   updateMessage = event => {
     api.post(`glyphs/${this.state.id}/messages/${this.state.index}`,
       {"pass" : this.props.pass, "text" : this.state.text, "probability" : Number(this.state.prob)}
-    ).then(result => {this.props.funct(result)})
+    ).then(result => {this.props.addToSnackbar(result)})
   }
 
   render() {
