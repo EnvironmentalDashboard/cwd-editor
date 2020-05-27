@@ -11,7 +11,7 @@ const styles = theme => ({
     flexWrap: 'wrap'
   },
   textField: {
-    width: '30%',
+    width: '95%',
     marginRight: 15
   }
 })
@@ -66,7 +66,7 @@ class MessageInput extends React.Component {
           />
           <TextField
             type="number"
-            style={{width: 75}}
+            style={{width: '3.5%'}}
             id="outlined-basic"
             label={`Prob ${this.props.index}`}
             variant="outlined"

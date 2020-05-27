@@ -66,12 +66,11 @@ class MessageEditor extends React.Component {
       <div className="MessageEditor">
           <TextField
             id="outlined-password-input"
-            label="Enter Password to Update Messages"
+            label="Password"
             type="password"
             size="small"
             margin="normal"
             variant="outlined"
-            style={{width: '16%'}}
             onBlur={(event) => {this.setState({ pass: event.target.value })}}
           />
         <div>

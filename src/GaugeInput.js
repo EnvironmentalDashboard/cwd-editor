@@ -18,7 +18,7 @@ const styles = theme => ({
     width: '100%'
   },
   textField: {
-    width: '60%',
+    width: '85%',
     marginRight: 15
   },
   expansionPanelDetails: {
@@ -98,7 +98,7 @@ class GaugeInput extends React.Component {
 
       return (
         <div>
-          <ExpansionPanel style={{width: '50%', border: '1px solid rgba(0, 0, 0, .125)', marginTop: 10}}>
+          <ExpansionPanel style={{width: '100%', border: '1px solid rgba(0, 0, 0, .125)', marginTop: 10}}>
             <ExpansionPanelSummary
               expandIcon={<ExpandMoreIcon />}
               aria-controls="panel1a-content"
