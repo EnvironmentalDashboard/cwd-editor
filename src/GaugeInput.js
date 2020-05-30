@@ -118,7 +118,6 @@ class GaugeInput extends React.Component {
                     margin="normal"
                     variant="outlined"
                     size="small"
-                    multiline
                     onChange={updateText}
                     onBlur={updateMessage}
                   />

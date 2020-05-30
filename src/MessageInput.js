@@ -7,8 +7,7 @@ const api = require('./api.js')
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap'
+    display: 'flex'
   },
   textField: {
     width: '96%'
@@ -61,11 +60,10 @@ class MessageInput extends React.Component {
             size="small"
             onChange={this.updateText}
             onBlur={this.updateMessage}
-            multiline
           />
           <TextField
             type="number"
-            style={{width: '4%'}}
+            style={{width: '4%', minWidth: '50px'}}
             id="outlined-basic"
             label={`Prob ${this.props.index}`}
             variant="outlined"
