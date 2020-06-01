@@ -18,7 +18,7 @@ const styles = theme => ({
     width: '100%'
   },
   textField: {
-    width: '85%',
+    flexGrow: 30,
     marginRight: 15
   },
   expansionPanelDetails: {
@@ -124,7 +124,7 @@ class GaugeInput extends React.Component {
                   {m.probability.map((prob, num) =>
                     <TextField
                       type="number"
-                      style={{width: 65}}
+                      style={{width: 65, minWidth: 52}}
                       id={index}
                       inputProps={{'bin': num}}
                       label={`Bin ${num + 1}`}

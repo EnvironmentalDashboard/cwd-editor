@@ -10,7 +10,8 @@ const styles = theme => ({
     display: 'flex'
   },
   textField: {
-    width: '96%'
+    flexGrow: 24,
+    marginRight: 15
   }
 })
 
@@ -63,7 +64,7 @@ class MessageInput extends React.Component {
           />
           <TextField
             type="number"
-            style={{width: '4%', minWidth: '50px'}}
+            style={{width: 65, minWidth: 52}}
             id="outlined-basic"
             label={`Prob ${this.props.index}`}
             variant="outlined"
