@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import TextField from '@material-ui/core/TextField'
 
 const api = require('./api.js')
@@ -45,11 +47,21 @@ class MessageInput extends React.Component {
     ).then(result => {this.props.addToSnackbar(result)})
   }
 
+  deleteMessage = event => {
+    api.post(`glyphs/${this.state.id}/messages/${this.state.index}`,
+      {"pass" : this.props.pass, "text" : " ", "probability" : 0}
+    ).then(result => {this.props.addToSnackbar(result)})
+    var elem = document.getElementById("row");
+    if (elem.parentNode) {
+      elem.parentNode.removeChild(elem);
+    }
+  }
+
   render() {
     const { classes } = this.props
 
     return (
-      <div>
+      <div id="row">
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             id="outlined-basic"
@@ -74,6 +86,11 @@ class MessageInput extends React.Component {
             onChange={this.updateProb}
             onBlur={this.updateMessage}
           />
+          <IconButton aria-label="delete"
+            onClick={this.deleteMessage}
+            className={classes.margin}>
+            <DeleteIcon fontSize="small" />
+          </IconButton>
         </form>
       </div>
     )

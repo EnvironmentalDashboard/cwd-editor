@@ -7,6 +7,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 import Typography from '@material-ui/core/Typography'
 
 const api = require('./api.js');
@@ -96,6 +98,13 @@ class GaugeInput extends React.Component {
       ).then(result => {this.props.addToSnackbar(result)})
     }
 
+    const deleteMessage = event => {
+      const index = Number(event.target.id)
+      api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${index+1}`,
+        {"pass" : this.props.pass, "text" : " ", "probability" : 0}
+      ).then(result => {this.props.addToSnackbar(result)})
+    }
+
       return (
         <div>
           <ExpansionPanel style={{width: '100%', border: '1px solid rgba(0, 0, 0, .125)', marginTop: 10}}>
@@ -136,6 +145,11 @@ class GaugeInput extends React.Component {
                       onBlur={updateMessage}
                     />
                   )}
+                  <IconButton aria-label="delete"
+                    onClick={deleteMessage}
+                    className={classes.margin}>
+                    <DeleteIcon fontSize="small" />
+                  </IconButton>
                 </form>
               )}
               <Button variant="contained" onClick={addMessage} style={{width: '25%'}}>Add Message</Button>
