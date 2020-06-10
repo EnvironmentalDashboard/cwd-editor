@@ -48,20 +48,15 @@ class MessageInput extends React.Component {
   }
 
   deleteMessage = event => {
-    api.post(`glyphs/${this.state.id}/messages/${this.state.index}`,
-      {"pass" : this.props.pass, "text" : " ", "probability" : 0}
-    ).then(result => {this.props.addToSnackbar(result)})
-    var elem = document.getElementById("row");
-    if (elem.parentNode) {
-      elem.parentNode.removeChild(elem);
-    }
+
+  
   }
 
   render() {
     const { classes } = this.props
 
     return (
-      <div id="row">
+      <div>
         <form className={classes.container} noValidate autoComplete="off">
           <TextField
             id="outlined-basic"
