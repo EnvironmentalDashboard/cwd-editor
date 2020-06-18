@@ -47,10 +47,6 @@ class MessageInput extends React.Component {
     ).then(result => {this.props.addToSnackbar(result)})
   }
 
-  deleteMessage = event => {
-
-  
-  }
 
   render() {
     const { classes } = this.props
@@ -82,7 +78,6 @@ class MessageInput extends React.Component {
             onBlur={this.updateMessage}
           />
           <IconButton aria-label="delete"
-            onClick={this.deleteMessage}
             className={classes.margin}>
             <DeleteIcon fontSize="small" />
           </IconButton>

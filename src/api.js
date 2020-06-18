@@ -21,7 +21,15 @@ const post = (url, params) => {
   .then(res => res.json());
 }
 
+const del = (url, params) => {
+  return window.fetch(`http://${API_URL}/${url}`, {
+    method: 'delete'
+  })
+  .then(res => res.json());
+}
+
 module.exports = {
   fetch,
-  post
+  post,
+  delete : del
 };

@@ -48,8 +48,6 @@ class MessageEditor extends React.Component {
     this.props.enqueueSnackbar(this.state.alerts[this.state.types.indexOf(variant)], { variant })
   }
 
-
-
   render() {
     const { messages, gauges } = this.state
 
@@ -59,6 +57,15 @@ class MessageEditor extends React.Component {
           this.setState({ messages: [...messages, {"text" : "Default message", "probability" : 0}]})
         }
         this.showAlert(result)
+      })
+    }
+
+    const deleteVMessage = () => {
+      api.delete(`glyphs/${this.props.id}/messages/delete`, {"pass" : this.state.pass, "text" : "Default message", "probability" : 0}).then(result => {
+        if (!result.errors) {
+          this.setState({
+            messages: this.state.messages.splice(messages.indexOf(this.props.id), 1)}) //not sure if this is the correct index, also should be checking if index == -1?
+        }
       })
     }
 
