@@ -93,7 +93,6 @@ export default function SplitButton(props) {
                     {options.map((option, index) => (
                       <MenuItem
                         key={option}
-                        disabled={index === 2}
                         selected={index === selectedIndex}
                         onClick={(event) => handleMenuItemClick(event, index)}
                       >
