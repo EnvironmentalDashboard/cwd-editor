@@ -2,10 +2,12 @@ import React from 'react'
 import TextField from '@material-ui/core/TextField'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Button from '@material-ui/core/Button'
+import Grid from '@material-ui/core/Grid'
 import { withSnackbar } from 'notistack'
 
 import MessageInput from './MessageInput.js'
 import GaugeInput from './GaugeInput.js'
+import ImportButton from './ImportButton.js'
 
 
 const api = require('./api.js')
@@ -37,6 +39,18 @@ class MessageEditor extends React.Component {
     }
   }
 
+  updateMessages = () => {
+    this.setState({
+      messages: [],
+      gauges: []
+    })
+    api.fetch(`glyphs/${this.props.id}/messages`)
+    .then(messages => this.setState({ messages: messages }))
+
+    api.fetch(`glyphs/${this.props.id}/gauges`)
+    .then(gauges => this.setState({ gauges: gauges }))
+  }
+
   showAlert = (response) => {
     let variant;
     if (response.errors) {
@@ -64,15 +78,23 @@ class MessageEditor extends React.Component {
 
     return (
       <div className="MessageEditor">
-          <TextField
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            size="small"
-            margin="normal"
-            variant="outlined"
-            onBlur={(event) => {this.setState({ pass: event.target.value })}}
+        <Grid container alignItems="center" spacing={1} style={{'margin-top': '1%', 'margin-bottom': '1%'}}>
+          <Grid item>
+            <TextField
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              size="small"
+              variant="outlined"
+              onBlur={(event) => {this.setState({ pass: event.target.value })}}
+            />
+          </Grid>
+          <ImportButton
+            addToSnackbar={this.showAlert}
+            pass={this.state.pass}
+            update={this.updateMessages}
           />
+        </Grid>
         <div>
         {messages.map((m, index) =>
           <MessageInput
