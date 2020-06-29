@@ -21,11 +21,13 @@ const post = (url, params) => {
   .then(res => res.json());
 }
 
-const importPost = (url, file, params) => {
+const postFormData = (url, params, file) => {
   const formData = new FormData();
-  formData.append('pass', params.pass);
-  formData.append('type', params.type);
-  formData.append('', file);
+
+  Object.keys(params).map(key => {
+    formData.append(key, params[key]);
+  })
+  if (file) formData.append('', file);
 
   return window.fetch(`http://${API_URL}/${url}`, {
     method: 'post',
@@ -37,5 +39,5 @@ const importPost = (url, file, params) => {
 module.exports = {
   fetch,
   post,
-  importPost
+  postFormData
 };
