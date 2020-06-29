@@ -20,8 +20,8 @@ class MessageEditor extends React.Component {
       messages: [],
       gauges: [],
       pass: "",
-      types: ["warning", "success", "error"],
-      alerts: ["Please enter a password.", "Database updated!", "Database could not  be updated!"]
+      types: ["warning", "success", "error", "info"],
+      alerts: ["Please enter a password.", "Database updated!", "Database could not  be updated!", "No file is currently selected.", "File selected!"]
     }
   }
 
@@ -52,9 +52,15 @@ class MessageEditor extends React.Component {
   }
 
   showAlert = (response) => {
-    let variant;
+    let variant
+
     if (response.errors) {
-      (this.state.pass === "") ? variant = "warning": variant = "error"
+      if (response.errors[0] === "No file provided!") variant = "info"
+      else (this.state.pass === "") ? variant = "warning": variant = "error"
+    } else if (response.file){
+      variant = "info"
+      this.props.enqueueSnackbar(`File \'${response.file}\' selected.`, { variant })
+      return
     } else {
       variant = "success"
     }
