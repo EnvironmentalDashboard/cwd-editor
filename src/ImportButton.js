@@ -20,11 +20,10 @@ export default function SplitButton(props) {
   const anchorRef = React.useRef(null);
   const [selectedIndex, setSelectedIndex] = React.useState(1);
   const [selectedFile, setSelectedFile] = React.useState();
-  const [behavior, setBehavior] = React.useState('overwrite');
 
   const handleClick = () => {
     api.importPost(`glyphs/import/`, selectedFile,
-      {"pass" : props.pass, "type" : behavior}
+      {"pass" : props.pass, "type" : options[selectedIndex].toLowerCase()}
     ).then(result => {
       props.addToSnackbar(result);
       props.update();
@@ -33,7 +32,6 @@ export default function SplitButton(props) {
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index);
-    setBehavior(options[index].toLowerCase());
     setOpen(false);
   };
 
