@@ -26,7 +26,7 @@ export default function SplitButton(props) {
 {"pass" : props.pass, "type" : options[selectedIndex].toLowerCase()}, selectedFile
     ).then(result => {
       props.addToSnackbar(result);
-      props.update();
+      if (!result.errors) props.update();
     })
   };
 
@@ -48,6 +48,7 @@ export default function SplitButton(props) {
   };
 
   const fileSelected = (event) => {
+    props.addToSnackbar({"file": event.target.files[0].name});
     setSelectedFile(event.target.files[0]);
   }
 
