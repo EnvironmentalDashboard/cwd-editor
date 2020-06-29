@@ -22,8 +22,8 @@ export default function SplitButton(props) {
   const [selectedFile, setSelectedFile] = React.useState();
 
   const handleClick = () => {
-    api.importPost(`glyphs/import/`, selectedFile,
-      {"pass" : props.pass, "type" : options[selectedIndex].toLowerCase()}
+    api.postFormData(`glyphs/import/`,
+{"pass" : props.pass, "type" : options[selectedIndex].toLowerCase()}, selectedFile
     ).then(result => {
       props.addToSnackbar(result);
       props.update();
