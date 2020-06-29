@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
+import TextField from '@material-ui/core/TextField'
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import TextField from '@material-ui/core/TextField'
 
 const api = require('./api.js')
 
@@ -78,6 +78,7 @@ class MessageInput extends React.Component {
             onBlur={this.updateMessage}
           />
           <IconButton aria-label="delete"
+            onClick={() => this.props.onDelete(this.props.id)}
             className={classes.margin}>
             <DeleteIcon fontSize="small" />
           </IconButton>

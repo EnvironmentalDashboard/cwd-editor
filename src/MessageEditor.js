@@ -3,7 +3,6 @@ import TextField from '@material-ui/core/TextField'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Button from '@material-ui/core/Button'
 import { withSnackbar } from 'notistack'
-
 import MessageInput from './MessageInput.js'
 import GaugeInput from './GaugeInput.js'
 
@@ -48,8 +47,14 @@ class MessageEditor extends React.Component {
     this.props.enqueueSnackbar(this.state.alerts[this.state.types.indexOf(variant)], { variant })
   }
 
+  handleDelete = messageID => {
+    const messages = this.state.messages.filter(message => this.props.id !== messageID)
+    this.setState({messages: messages})
+  }
+
   render() {
     const { messages, gauges } = this.state
+    const { classes } = this.props
 
     const addVMessage = () => {
       api.post(`glyphs/${this.props.id}/messages/`, {"pass" : this.state.pass, "text" : "Default message", "probability" : 0}).then(result => {
@@ -60,11 +65,11 @@ class MessageEditor extends React.Component {
       })
     }
 
-    const deleteVMessage = () => {
-      api.delete(`glyphs/${this.props.id}/messages/delete`, {"pass" : this.state.pass, "text" : "Default message", "probability" : 0}).then(result => {
+    const handleViewDeletion = () => {
+      this.handleDelete()
+      api.delete(`glyphs/${this.props.id}/messages/delete`).then(result => {
         if (!result.errors) {
-          this.setState({
-            messages: this.state.messages.splice(messages.indexOf(this.props.id), 1)}) //not sure if this is the correct index, also should be checking if index == -1?
+          this.handleDelete()
         }
       })
     }
@@ -82,14 +87,15 @@ class MessageEditor extends React.Component {
           />
         <div>
         {messages.map((m, index) =>
-          <MessageInput
-            index={index + 1}
-            id={this.props.id}
-            text={m.text}
-            prob={m.probability}
-            pass={this.state.pass}
-            addToSnackbar={this.showAlert}
-            />
+            <MessageInput
+              index={index + 1}
+              id={this.props.id}
+              text={m.text}
+              prob={m.probability}
+              pass={this.state.pass}
+              addToSnackbar={this.showAlert}
+              onDelete = {handleViewDeletion}
+              />
         )}
           <Button variant="contained" onClick={addVMessage}>Add Message To View</Button>
         </div>

@@ -98,12 +98,6 @@ class GaugeInput extends React.Component {
       ).then(result => {this.props.addToSnackbar(result)})
     }
 
-    const deleteMessage = event => {
-      const index = Number(event.target.id)
-      api.post(`glyphs/${this.state.id}/gauges/${this.state.index}/messages/${index+1}`,
-        {"pass" : this.props.pass, "text" : " ", "probability" : 0}
-      ).then(result => {this.props.addToSnackbar(result)})
-    }
 
       return (
         <div>
@@ -146,7 +140,7 @@ class GaugeInput extends React.Component {
                     />
                   )}
                   <IconButton aria-label="delete"
-                    onClick={deleteMessage}
+                    onClick={() => this.props.onDelete(this.props.id)}
                     className={classes.margin}>
                     <DeleteIcon fontSize="small" />
                   </IconButton>
