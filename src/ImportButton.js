@@ -10,29 +10,39 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import CheckIcon from '@material-ui/icons/Check';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import Box from '@material-ui/core/Box';
 
 const api = require('./api.js');
 
-const options = ['Append', 'Overwrite'];
+const DIALOG_TITLE = 'Upload Messages';
 
 export default function SplitButton(props) {
   const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const [selectedType, setSelectedType] = React.useState('append');
   const [selectedFile, setSelectedFile] = React.useState();
 
   const handleClick = () => {
     api.postFormData(`glyphs/import/`,
-{"pass" : props.pass, "type" : options[selectedIndex].toLowerCase()}, selectedFile
+{"pass" : props.pass, "type" : selectedType}, selectedFile
     ).then(result => {
       props.addToSnackbar(result);
       if (!result.errors) props.update();
     })
   };
 
-  const handleMenuItemClick = (event, index) => {
-    setSelectedIndex(index);
-    setOpen(false);
+  const handleRadioClick = (event) => {
+    setSelectedType(event.target.value);
   };
 
   const handleToggle = () => {
@@ -40,10 +50,6 @@ export default function SplitButton(props) {
   };
 
   const handleClose = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
     setOpen(false);
   };
 
@@ -53,57 +59,38 @@ export default function SplitButton(props) {
   }
 
   return (
-      <Grid item xs={6}>
-      <input
-       id="contained-button-file"
-       style={{display: 'none'}}
-       multiple
-       type="file"
-       onChange={fileSelected}
-      />
-      <label htmlFor="contained-button-file">
-        <ButtonGroup variant="contained" color="primary" ref={anchorRef} aria-label="split button">
-          <Button color="primary" startIcon={<CloudUploadIcon />} component="span" >Upload</Button>
-          <Button color="primary"onClick={handleClick}>Import ({options[selectedIndex]})</Button>
-            <Button
-              color="primary"
-              size="small"
-              aria-controls={open ? 'split-button-menu' : undefined}
-              aria-expanded={open ? 'true' : undefined}
-              aria-label="select merge strategy"
-              aria-haspopup="menu"
-              onClick={handleToggle}
-            >
-              <ArrowDropDownIcon />
-            </Button>
-        </ButtonGroup>
-      </label>
-        <Popper open={open} anchorEl={anchorRef.current} placement={"right"} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{
-                transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom',
-              }}
-            >
-              <Paper>
-                <ClickAwayListener onClickAway={handleClose}>
-                  <MenuList id="split-button-menu">
-                    {options.map((option, index) => (
-                      <MenuItem
-                        key={option}
-                        selected={index === selectedIndex}
-                        onClick={(event) => handleMenuItemClick(event, index)}
-                      >
-                        {option}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-      </Grid>
+    <Grid item xs={6}>
+      <Button color="primary" variant="contained" startIcon={<CloudUploadIcon />} onClick={handleToggle}>{DIALOG_TITLE}</Button>
+      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">{DIALOG_TITLE}</DialogTitle>
+        <DialogContent>
+          <Box display="flex" flexDirection="column">
+            <FormControl style={{marginBottom: 20}}>
+              <label htmlFor="contained-button-file">
+                <Button color="primary" variant="contained" component="span" startIcon={selectedFile ? <CheckIcon /> : null}>Attach File</Button>
+              </label>
+              <input
+               id="contained-button-file"
+               style={{display: 'none'}}
+               multiple
+               type="file"
+               onChange={fileSelected}
+              />
+            </FormControl>
+            <FormControl component="fieldset">
+              <FormLabel component="legend">Type</FormLabel>
+              <RadioGroup aria-label="type" name="type" value={selectedType} onChange={handleRadioClick}>
+                <FormControlLabel value="append" control={<Radio color="primary" />} label="Append" />
+                <FormControlLabel value="overwrite" control={<Radio color="primary" />} label="Overwrite" />
+              </RadioGroup>
+            </FormControl>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleToggle}>Cancel</Button>
+          <Button onClick={handleClick} disabled={!selectedFile}>Confirm</Button>
+        </DialogActions>
+      </Dialog>
+    </Grid>
   );
 }
