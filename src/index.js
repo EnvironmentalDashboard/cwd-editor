@@ -9,8 +9,7 @@ const PATH_PREFIX = process.env.REACT_APP_PATH_PREFIX || "";
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Route path={`${PATH_PREFIX}/messages`} component={App} />
-      <Redirect from="*" to={`${PATH_PREFIX}/messages`} />
+      <Route component={App} />
     </Router>
   </React.StrictMode>,
   document.getElementById('root')
