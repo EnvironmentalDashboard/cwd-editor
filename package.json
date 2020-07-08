@@ -2,6 +2,7 @@
   "name": "cwd-editor",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/citywide-dashboard/editor",
   "dependencies": {
     "@material-ui/core": "^4.9.12",
     "@material-ui/icons": "^4.9.1",
@@ -13,6 +14,7 @@
     "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
