@@ -35,13 +35,12 @@ class GaugeInput extends React.Component {
       id: this.props.id,
       index: this.props.index,
       gauge: this.props.gauge,
-      views : [],
       messages: this.props.gauge.messages
     }
   }
   render() {
     const { classes } = this.props
-    let { gauge, messages, views } = this.state
+    let { gauge, messages, } = this.state
 
     const updateProb = event => {
       const id = event.target.id
