@@ -38,10 +38,9 @@ class GaugeInput extends React.Component {
       messages: this.props.gauge.messages
     }
   }
-
   render() {
     const { classes } = this.props
-    let { gauge, messages } = this.state
+    let { gauge, messages, } = this.state
 
     const updateProb = event => {
       const id = event.target.id
@@ -49,7 +48,6 @@ class GaugeInput extends React.Component {
       let p = this.state.messages[id].probability;
 
       p[event.target.getAttribute('bin')] = parseInt(val);
-
       this.setState(prevState => ({
         messages: {
           ...prevState.messages, [id]:
@@ -104,7 +102,7 @@ class GaugeInput extends React.Component {
               aria-controls="panel1a-content"
               id="panel1a-header">
               <Typography>
-                Gauge {this.state.index}
+                {gauge.name ? gauge.name : `Gauge ${this.state.index}`}
               </Typography>
             </ExpansionPanelSummary>
             <ExpansionPanelDetails className={classes.expansionPanelDetails}>
