@@ -22,6 +22,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Box from '@material-ui/core/Box';
+import TextField from '@material-ui/core/TextField'
 
 const api = require('./api.js');
 
@@ -65,6 +66,18 @@ export default function SplitButton(props) {
         <DialogTitle id="form-dialog-title">{DIALOG_TITLE}</DialogTitle>
         <DialogContent>
           <Box display="flex" flexDirection="column">
+            {/* Note: this really should use onChange and have linked state to above, but this is super inefficient. */}
+            <FormControl style={{marginBottom: 20}}>
+              <TextField
+                id="outlined-password-input"
+                label="Password"
+                type="password"
+                size="small"
+                variant="outlined"
+                onBlur={props.handlePassword}
+                defaultValue={props.pass}
+              />
+            </FormControl>
             <FormControl style={{marginBottom: 20}}>
               <label htmlFor="contained-button-file">
                 <Button color="primary" variant="contained" component="span" startIcon={selectedFile ? <CheckIcon /> : null}>Attach File</Button>
