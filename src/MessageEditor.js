@@ -9,7 +9,6 @@ import MessageInput from './MessageInput.js'
 import GaugeInput from './GaugeInput.js'
 import ImportButton from './ImportButton.js'
 
-
 const api = require('./api.js')
 
 class MessageEditor extends React.Component {
@@ -68,7 +67,9 @@ class MessageEditor extends React.Component {
     this.props.enqueueSnackbar(this.state.alerts[this.state.types.indexOf(variant)], { variant })
   }
 
-
+  handlePassword = event => {
+    this.setState({ pass: event.target.value });
+  }
 
   render() {
     const { messages, gauges } = this.state
@@ -92,13 +93,14 @@ class MessageEditor extends React.Component {
               type="password"
               size="small"
               variant="outlined"
-              onBlur={(event) => {this.setState({ pass: event.target.value })}}
+              onBlur={this.handlePassword}
             />
           </Grid>
           <ImportButton
             addToSnackbar={this.showAlert}
             pass={this.state.pass}
             update={this.updateMessages}
+            handlePassword={this.handlePassword}
           />
         </Grid>
         <div>
